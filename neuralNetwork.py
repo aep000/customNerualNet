@@ -1,6 +1,8 @@
-import numpy as np
 import random
 import math
+import numpy as np
+
+#Defines the attributes of a neuron Probably very memory intensive
 class neuron:
 	def __init__(self, inputNodes):
 		self.inpts = inputNodes
@@ -65,7 +67,7 @@ class network:
 			for neuron in layer:
 				neuron.runNeuron()
 		for a,b in zip(expectedOut,self.net[len(self.net)-1]):
-			b.backProp(a-b.output,learningRate)
+			b.backProp(a-b.output,self.learningRate)
 					
 		
 	def predict(self, inputs):
@@ -78,31 +80,3 @@ class network:
 		for out in self.net[len(self.net)-1]:
 			outs.append(out.output)
 		return outs
-			
-
-
-netarr = [2,1]
-testInpts = [[10.0,2.0], [5.0,5.0], [5.0,6.0], [4.0,3.0], [1.0,2.0] ]
-outs = [[1.0/12],[1.0/10],[1.0/11],[1.0/7],[1.0/3]]
-learningRate=.01
-net = network(netarr,learningRate)
-c=0
-while c<20000:
-	for a,b in zip(testInpts,outs):
-		net.train(a,b)
-	c+=1
-correct = 0.0
-testInpts = [[2.0,3.0],[7.0,3.0]]
-outs = [[1.0/5],[1.0/10]]
-for a,b in zip(testInpts,outs):
-	pos=net.predict(a)
-	if pos[0]>.5 and b[0]==1:
-		correct+=1.0
-	if pos[0]<.5 and b[0]==0:
-		correct+=1.0
-	print str(a)+" EXPECTED"+str(b)+" OUT "+str(pos)
-print correct/len(outs)	
-
-
-
-
