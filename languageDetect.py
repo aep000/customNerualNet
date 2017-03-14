@@ -51,8 +51,7 @@ net = pickle.load(open("spanishEnglish.pkl"))
 net.learningRate =.01
 c=0
 data = genDataArrs(500)
-
-while c<200:
+while c<500:
     for a,b in data:
         net.train(a,b)
     c+=1

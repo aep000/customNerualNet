@@ -67,6 +67,7 @@ class network:
 			for neuron in layer:
 				neuron.runNeuron()
 		for a,b in zip(expectedOut,self.net[len(self.net)-1]):
+			print("Error: "+str(a-b.output))
 			b.backProp(a-b.output,self.learningRate)
 					
 		
