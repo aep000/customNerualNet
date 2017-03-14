@@ -45,13 +45,14 @@ def getAllData(fileName, indvOut):
 		out.append(indvOut)
 	return zip(lines,out)
 		
-netarr = [10,15,2]
+netarr = [10,5,2]
 learningRate=.01
-net = pickle.load(open("spanishEnglish.pkl"))
-net.learningRate =.01
+#net = pickle.load(open("spanishEnglish.pkl"))
+net == nn.network(netarr,learningRate)
+net.learningRate =.001
 c=0
-data = genDataArrs(500)
-while c<500:
+data = genDataArrs()
+while c<200:
     for a,b in data:
         net.train(a,b)
     c+=1

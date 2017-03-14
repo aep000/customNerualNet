@@ -60,14 +60,15 @@ class network:
 				self.net[c].append(neuron(self.net[c-1]))
 				c1+=1
 			c+=1
-	def train(self, idata, expectedOut):
+	def train(self, idata, expectedOut, showError=False):
 		for inp,data in zip(self.net[0],idata):
 			inp.setOutput(data)
 		for layer in self.net:
 			for neuron in layer:
 				neuron.runNeuron()
 		for a,b in zip(expectedOut,self.net[len(self.net)-1]):
-			print("Error: "+str(a-b.output))
+			if showError:
+				print("Error: "+str(a-b.output))
 			b.backProp(a-b.output,self.learningRate)
 					
 		
