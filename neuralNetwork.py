@@ -11,9 +11,8 @@ class neuron:
 		self.output = 0
 		for inp in inputNodes:
 			self.weights.append(random.random())	
-	def weightSum(self):
-		for a,b in zip(self.weights,self.inpts):
-			weightedVals = [ a*b.output for a,b in zip(self.weights,self.inpts)]
+	def weightSum(self):	
+		weightedVals = [ a*b.output for a,b in zip(self.weights,self.inpts)]
 		return sum(weightedVals)
 	
 
@@ -32,10 +31,8 @@ class neuron:
 			inp.backProp(err,learningRate)
 
 class inputNode:
-	def __init__(self, val=0):
+	def __init__(self, val=0, arr = False):
 		self.output = val
-	def output(self):
-		return self.output
 	def setOutput(self, val):
 		self.output = val
 	def backProp(self, error, learningRate):
