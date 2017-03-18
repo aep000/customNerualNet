@@ -1,11 +1,11 @@
 import neuralNetwork as nn
 import os, random
 import pickle
-nnarr = [9,27,27,9]
+nnarr = [9,27,9]
 learningRate=.01
-#net = pickle.load(open("ticTacToe.pkl"))
-learningRate = .0001
-net = nn.network(nnarr, learningRate)
+net = pickle.load(open("ticTacToe.pkl"))
+learningRate = .001
+#net = nn.network(nnarr, learningRate)
 winner = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
 board= [0,0,0,0,0,0,0,0,0]
 playerMoves = []
@@ -77,24 +77,24 @@ c = 0
 
 while gathering:
 	boardPrinter()
-	randomSelect()
-	#netPlay(net,1)
+	#randomSelect()
+	netPlay(net,1)
 	#gamePlayerEncoder(training=False)
 	board=checkWin()
 	boardPrinter()
 	if sum(board) != 0:
-		randomSelect(2)
+		#randomSelect(2)
 		#correct.append()
-		#gamePlayerEncoder(2)
+		gamePlayerEncoder(2)
 		boards.append(board)
 		#netPlay(net,2)
 		board=checkWin()
 	if sum(board) == 0:
 		#gameCount = int(raw_input("play Again (0 yes, 1 no)"))
-		if c == 1000:
+		if c == 25:
 			gathering =False
 		c+=1
-
+'''
 print "TRAINING NOW"
 trainingSet=[]
 correctSet =[]
@@ -105,7 +105,7 @@ for c in correct:
 correctSet = [[a*1.0 for a in correct] for correct in correctSet]
 trainingSet = [[a*1.0 for a in correct] for correct in trainingSet]
 tc = 0
-while tc < 20:
+while tc < 100:
 	for a,b in zip(trainingSet,correctSet):
 		net.train(a,b)
 	tc+=1
@@ -114,4 +114,4 @@ print "PREDICTION "+str(net.predict([1,1,0,2,0,0,0,0,0]))
 os.remove("ticTacToe.pkl")
 output = open('ticTacToe.pkl', 'wb')
 pickle.dump(net, output)
-
+'''
