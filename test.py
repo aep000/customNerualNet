@@ -11,8 +11,8 @@ while c<20000:
                 net.train(a,b)
         c+=1
 correct = 0.0
-testInpts = [[2.0,3.0],[7.0,3.0]]
-outs = [[1.0/5],[1.0/10]]
+testInpts = [[11.0,3.0],[7.0,3.0]]
+outs = [[1.0/14],[1.0/10]]
 for a,b in zip(testInpts,outs):
         pos=net.predict(a)
         if pos[0]>.5 and b[0]==1:

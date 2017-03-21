@@ -23,13 +23,25 @@ class neuron:
 		self.output = out
 		return out
 	def backProp(self, error,learningRate):
-		errors = [weight*(self.output*(1-self.output))*error for weight in self.weights]
+		errors = [weight*(self.transfer_derivative(self.output))*error for weight in self.weights]
 		
-		self.weights= [ weight + learningRate * error * inp.output for inp,err,weight in zip(self.inpts,errors,self.weights)]
+		self.weights= [ weight + learningRate * err * inp.output for inp,err,weight in zip(self.inpts,errors,self.weights)]
 		
 		for inp,err in zip(self.inpts,errors):
 			inp.backProp(err,learningRate)
+	# Calculate the derivative of an neuron output
+	def transfer_derivative(self,output):
+		return output * (1.0 - output)
 
+
+class outputNeuron(neuron):
+	def backProp(self, error,learningRate):
+		error *=self.transfer_derivative(self.output)
+		self.weights = [ weight + learningRate * error * inp.output  for inp,weight in zip(self.inpts,self.weights)]
+		for inp in self.inpts:
+			inp.backProp(error,learningRate)
+
+		
 class inputNode:
 	def __init__(self, val=0, arr = False):
 		self.output = val
@@ -51,11 +63,18 @@ class network:
 			self.net[0].append(inputNode())
 			c2+=1
 		for layer in netArray[1:]:
-			self.net.append([])
-			c1 = 0 
-			while c1<layer:
-				self.net[c].append(neuron(self.net[c-1]))
-				c1+=1
+			if(c!=len(netArray)-1):
+				self.net.append([])
+				c1 = 0 
+				while c1<layer:
+					self.net[c].append(neuron(self.net[c-1]))
+					c1+=1
+			else:
+				self.net.append([])
+                                c1 = 0
+                                while c1<layer:
+                                        self.net[c].append(outputNeuron(self.net[c-1]))
+                                        c1+=1
 			c+=1
 	def train(self, idata, expectedOut, showError=False):
 		for inp,data in zip(self.net[0],idata):
